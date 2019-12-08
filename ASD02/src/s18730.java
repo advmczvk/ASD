@@ -16,19 +16,22 @@ public class s18730 {
                 root.setValue(arr[0]);
             }
         }
-        System.out.println(root.find());
+        root.getWord();
+        System.out.println(max);
     }
-
+    static String max = "";
 }
 
 class Node {
     char value;
-    Node right, left;
-    public Node(char value){
+    Node right, left, parent;
+    boolean leafVisited;
+    Node(char value){
         this.value = value;
+        this.leafVisited = false;
     }
 
-    public void addNode(char[] arr){
+    void addNode(char[] arr){
         if(arr.length == 3){
             if(arr[2] == 'L') {
                 if (left == null) left = new Node('/');
@@ -56,28 +59,36 @@ class Node {
             }
         }
     }
+    void getWord(){
+        if(left != null){
+            left.setParent(this);
+            left.getWord();
+        }
+        if(right != null) {
+            right.setParent(this);
+            right.getWord();
+        }
+        if(left == null && right == null) s18730.max = compare(buildWord(""), s18730.max);
+
+    }
+    String buildWord(String word){
+        word += getValue();
+        if(parent == null) return word;
+        return parent.buildWord(word);
+    }
+    
+    String compare(String wordLeft, String wordRight){
+        if(wordLeft.compareTo(wordRight) > 0) return wordLeft;
+        else if(wordLeft.compareTo(wordRight) < 0) return wordRight;
+        else return wordLeft.length() > wordRight.length() ? wordLeft : wordRight;
+    }
     char getValue(){
         return this.value;
     }
     void setValue(char value){
         this.value = value;
     }
-
-    String find(){
-        String wordLeft = "", wordRight = "";
-
-        if(left != null) {
-            wordLeft += left.find() + getValue();
-        }
-        if(right != null) {
-            wordRight += right.find() + getValue();
-        }
-
-        return left == null && right == null ? String.valueOf(getValue()) : left == null && right != null ? wordRight : left != null && right == null ? wordLeft : compare(wordLeft, wordRight);
-    }
-    String compare(String wordLeft, String wordRight){
-        if(wordLeft.compareTo(wordRight) > 0) return wordLeft;
-        else if(wordLeft.compareTo(wordRight) < 0) return wordRight;
-        return wordLeft;
+    void setParent(Node parent){
+        this.parent = parent;
     }
 }

@@ -1,6 +1,8 @@
-L L
-A RL
-K RR
-K
-C R
-L RRL
+G RR
+A
+C L
+F LLR
+X LLL
+F R
+X RL
+H LL
