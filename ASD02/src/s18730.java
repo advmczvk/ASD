@@ -25,10 +25,9 @@ public class s18730 {
 class Node {
     char value;
     Node right, left, parent;
-    boolean leafVisited;
+
     Node(char value){
         this.value = value;
-        this.leafVisited = false;
     }
 
     void addNode(char[] arr){
@@ -69,7 +68,6 @@ class Node {
             right.getWord();
         }
         if(left == null && right == null) s18730.max = compare(buildWord(""), s18730.max);
-
     }
     String buildWord(String word){
         word += getValue();
